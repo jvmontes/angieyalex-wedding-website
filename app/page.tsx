@@ -149,7 +149,7 @@ export default function HomePage() {
             fill
             sizes="(max-width: 768px) 100vw, 50vw"
             loading="eager"
-            className="object-cover [object-position:center_25%]"
+            className="object-cover [object-position:center_25%] lg:[object-position:center_38%] xl:[object-position:center_45%]"
           />
         </div>
         <div className="flex flex-col items-center justify-center px-10 py-16 bg-surface text-center">
