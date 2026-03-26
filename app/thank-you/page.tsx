@@ -9,7 +9,7 @@ export default function ThankYouPage() {
   return (
     <>
       {/* Photo */}
-      <div className="relative h-[55vh] min-h-[360px]">
+      <div className="relative h-[55svh] min-h-[360px]">
         <Image
           src="/ColorPalette/angie-and-alex-sitting.jpeg"
           alt="Angie and Alex sitting together on the cliffs, looking out at the ocean"

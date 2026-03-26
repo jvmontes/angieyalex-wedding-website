@@ -9,7 +9,7 @@ export default function HomePage() {
           Full viewport, text overlaid in the open
           sky at top, RSVP anchored at bottom.
       ───────────────────────────────────────── */}
-      <section className="relative h-[92vh] min-h-[600px]">
+      <section className="relative h-[92svh] min-h-[600px]">
         <Image
           src="/EngagementPhotos/alex-lifting-angie.jpeg"
           alt="Alex lifting Angie, laughing together on the cliffs of Lima"
@@ -82,7 +82,7 @@ export default function HomePage() {
           The playful, joyful moment. Lots of sky
           — text floats below them.
       ───────────────────────────────────────── */}
-      <section className="relative h-[80vh] min-h-[520px]">
+      <section className="relative h-[80svh] min-h-[520px]">
         <Image
           src="/EngagementPhotos/angie-and-alex-dip.jpeg"
           alt="Alex dipping Angie on the hilltop at dusk"
@@ -142,7 +142,7 @@ export default function HomePage() {
           Photo left, intimate text right.
       ───────────────────────────────────────── */}
       <section className="grid grid-cols-1 md:grid-cols-2">
-        <div className="relative h-[65vh] md:h-auto min-h-[480px]">
+        <div className="relative h-[65svh] md:h-auto min-h-[480px]">
           <Image
             src="/EngagementPhotos/angie-looking-at-alex.jpeg"
             alt="Angie smiling up at Alex at golden hour"
@@ -179,7 +179,7 @@ export default function HomePage() {
           CLOSER — angie-and-alex-kiss
           The emotional finale. Second RSVP CTA.
       ───────────────────────────────────────── */}
-      <section className="relative h-[85vh] min-h-[560px]">
+      <section className="relative h-[85svh] min-h-[560px]">
         {/* Mobile: kiss photo */}
         <Image
           src="/EngagementPhotos/angie-and-alex-kiss.jpeg"
