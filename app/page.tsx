@@ -1,109 +1,212 @@
+import Image from "next/image";
 import Link from "next/link";
 
-export default async function HomePage({
-  searchParams,
-}: {
-  searchParams: Promise<{ code?: string }>;
-}) {
-  const { code } = await searchParams;
-  const validCode = process.env.NEXT_PUBLIC_RSVP_CODE;
-  const hasValidCode = Boolean(code && validCode && code === validCode);
-
+export default function HomePage() {
   return (
     <>
-      {/* Hero */}
-      <section className="relative flex flex-col items-center justify-center text-center px-6 py-24 md:py-36 overflow-hidden bg-cream-dark">
-        {/* Decorative top border */}
-        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-tan to-transparent" />
+      {/* ─────────────────────────────────────────
+          HERO — alex-lifting-angie
+          Full viewport, text overlaid in the open
+          sky at top, RSVP anchored at bottom.
+      ───────────────────────────────────────── */}
+      <section className="relative h-[92vh] min-h-[600px]">
+        <Image
+          src="/EngagementPhotos/alex-lifting-angie.jpeg"
+          alt="Alex lifting Angie, laughing together on the cliffs of Lima"
+          fill
+          sizes="100vw"
+          className="object-cover [object-position:center_15%] md:[object-position:center_38%]"
+          priority
+        />
+        {/* Soft gradient — darkens top for text, subtle at bottom */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-transparent to-black/30 pointer-events-none" />
 
-        {/* Placeholder hero image */}
-        <div className="absolute inset-0 -z-10">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="https://placehold.co/1400x700/e8ddd0/c4b09a?text=+"
-            alt=""
-            aria-hidden="true"
-            className="w-full h-full object-cover opacity-40"
+        <div className="relative h-full flex flex-col items-center justify-between py-14 px-6 text-center">
+          {/* Names — sits in the open sky */}
+          <div>
+            <p className="text-[0.65rem] tracking-[0.35em] uppercase text-white/70 mb-5">
+              Together with their families
+            </p>
+            <h1 className="font-heading font-light text-[5.5rem] md:text-[8rem] text-white leading-[0.9] tracking-wide">
+              Angie
+            </h1>
+            <p className="font-script text-5xl md:text-6xl text-white/85 my-1">
+              &amp;
+            </p>
+            <h1 className="font-heading font-light text-[5.5rem] md:text-[8rem] text-white leading-[0.9] tracking-wide">
+              Alex
+            </h1>
+          </div>
+
+          {/* Date + RSVP — anchored at bottom */}
+          <div>
+            <p className="text-[0.7rem] tracking-[0.3em] uppercase text-white/75 mb-6">
+              [Month DD, YYYY] &nbsp;·&nbsp; [City], Peru
+            </p>
+            <Link
+              href="/rsvp"
+              className="inline-block bg-white text-charcoal px-12 py-3.5 text-[0.7rem] tracking-[0.2em] uppercase hover:bg-[#1a1a1a] hover:text-white transition-all duration-300"
+            >
+              RSVP
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ─────────────────────────────────────────
+          WELCOME — clean white text section
+      ───────────────────────────────────────── */}
+      <section className="py-24 px-6 text-center max-w-lg mx-auto">
+        <p className="text-[0.65rem] tracking-[0.35em] uppercase text-terracotta mb-5">
+          13 · 02 · 27
+        </p>
+        <h2 className="font-heading font-light text-4xl md:text-5xl text-charcoal mb-8 leading-snug">
+          An invitation into<br />
+          <span className="font-script text-5xl md:text-6xl text-stone">our adventure</span>
+        </h2>
+        <div className="flex items-center justify-center gap-3 mb-8">
+          <div className="h-px w-10 bg-linen" />
+          <span className="text-linen text-sm">✦</span>
+          <div className="h-px w-10 bg-linen" />
+        </div>
+        <p className="text-stone leading-[1.9] text-[0.95rem]">
+          We are overjoyed to invite you to share in the celebration of
+          our love. Surrounded by the beauty of Peru — the cliffs, the
+          ocean, the golden light — we will begin this next chapter
+          together. And we could not imagine it without you.
+        </p>
+      </section>
+
+      {/* ─────────────────────────────────────────
+          FULL BLEED — angie-and-alex-dip
+          The playful, joyful moment. Lots of sky
+          — text floats below them.
+      ───────────────────────────────────────── */}
+      <section className="relative h-[80vh] min-h-[520px]">
+        <Image
+          src="/EngagementPhotos/angie-and-alex-dip.jpeg"
+          alt="Alex dipping Angie on the hilltop at dusk"
+          fill
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+        <div className="absolute bottom-10 left-0 right-0 text-center px-6">
+          <p className="font-heading font-light italic text-3xl md:text-4xl text-white/90 tracking-wide">
+            A love worth celebrating
+          </p>
+        </div>
+      </section>
+
+      {/* ─────────────────────────────────────────
+          DETAILS — ceremony & reception
+      ───────────────────────────────────────── */}
+      <section className="py-24 px-6 max-w-2xl mx-auto text-center space-y-14">
+        <div>
+          <p className="text-[0.65rem] tracking-[0.35em] uppercase text-terracotta mb-4">
+            Ceremony
+          </p>
+          <h3 className="font-heading text-3xl md:text-4xl text-charcoal mb-3">
+            [Venue Name]
+          </h3>
+          <p className="text-stone text-sm leading-loose tracking-wide">
+            [Street Address], [City], Peru
+            <br />
+            [Time]
+          </p>
+        </div>
+
+        <div className="flex items-center gap-4">
+          <div className="h-px flex-1 bg-linen" />
+          <span className="text-linen text-sm">✦</span>
+          <div className="h-px flex-1 bg-linen" />
+        </div>
+
+        <div>
+          <p className="text-[0.65rem] tracking-[0.35em] uppercase text-terracotta mb-4">
+            Reception
+          </p>
+          <h3 className="font-heading text-3xl md:text-4xl text-charcoal mb-3">
+            [Venue Name]
+          </h3>
+          <p className="text-stone text-sm leading-loose tracking-wide">
+            [Street Address], [City], Peru
+            <br />
+            [Time]
+          </p>
+        </div>
+      </section>
+
+      {/* ─────────────────────────────────────────
+          SPLIT — angie-looking-at-alex
+          Photo left, intimate text right.
+      ───────────────────────────────────────── */}
+      <section className="grid grid-cols-1 md:grid-cols-2">
+        <div className="relative h-[65vh] md:h-auto min-h-[480px]">
+          <Image
+            src="/EngagementPhotos/angie-looking-at-alex.jpeg"
+            alt="Angie smiling up at Alex at golden hour"
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+            loading="eager"
+            className="object-cover [object-position:center_25%]"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-cream-dark/60 via-cream-dark/40 to-cream-dark/80" />
         </div>
-
-        {/* Eyebrow */}
-        <p className="text-xs tracking-[0.3em] uppercase text-terracotta mb-6">
-          Together with their families
-        </p>
-
-        {/* Names */}
-        <h1 className="font-heading text-6xl md:text-8xl text-warm-brown leading-none mb-4">
-          Angie
-          <span className="block text-3xl md:text-4xl text-muted-brown font-normal italic my-3">
-            &amp;
-          </span>
-          Alex
-        </h1>
-
-        {/* Date & Location */}
-        <div className="mt-6 space-y-1">
-          <p className="text-base md:text-lg tracking-widest uppercase text-muted-brown">
-            [Month DD, YYYY]
+        <div className="flex flex-col items-center justify-center px-10 py-16 bg-surface text-center">
+          <p className="text-[0.65rem] tracking-[0.35em] uppercase text-terracotta mb-5">
+            Lima, Peru
           </p>
-          <p className="text-sm tracking-widest text-terracotta uppercase">
-            [Venue Name] &nbsp;·&nbsp; [City], Peru
+          <h2 className="font-heading font-light text-4xl md:text-5xl text-charcoal leading-snug mb-6">
+            Where the cliffs<br />meet the sea
+          </h2>
+          <div className="flex items-center justify-center gap-3 mb-6">
+            <div className="h-px w-8 bg-linen" />
+            <span className="text-linen text-sm">✦</span>
+            <div className="h-px w-8 bg-linen" />
+          </div>
+          <p className="text-stone text-sm leading-[1.9] max-w-xs">
+            From the moment they met, Angie and Alex have
+            shared a life of adventure, laughter, and
+            unwavering love — and they are just getting started.
           </p>
         </div>
+      </section>
 
-        {/* Divider */}
-        <div className="flex items-center gap-4 my-10">
-          <div className="h-px w-16 bg-tan" />
-          <span className="text-tan text-lg">✦</span>
-          <div className="h-px w-16 bg-tan" />
-        </div>
+      {/* Desktop-only spacer — clean break between photo sections */}
+      <div className="hidden md:block h-24 bg-surface" />
 
-        {/* Welcome message */}
-        <p className="max-w-prose text-base md:text-lg text-muted-brown leading-relaxed">
-          We are overjoyed to invite you to share in the celebration of our
-          love. Surrounded by the beauty of Peru, we will begin our journey
-          together as husband and wife — and we could not imagine this day
-          without you.
-        </p>
-
-        {/* RSVP Button — only shown with a valid ?code= param */}
-        {hasValidCode && (
+      {/* ─────────────────────────────────────────
+          CLOSER — angie-and-alex-kiss
+          The emotional finale. Second RSVP CTA.
+      ───────────────────────────────────────── */}
+      <section className="relative h-[85vh] min-h-[560px]">
+        {/* Mobile: kiss photo */}
+        <Image
+          src="/EngagementPhotos/angie-and-alex-kiss.jpeg"
+          alt="Angie and Alex kissing with the ocean behind them"
+          fill
+          sizes="100vw"
+          className="object-cover object-center md:hidden"
+        />
+        {/* Desktop: sunset over Lima */}
+        <Image
+          src="/ColorPalette/sunset.jpeg"
+          alt="Sunset over the cliffs of Lima"
+          fill
+          sizes="100vw"
+          className="object-cover object-center hidden md:block"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/60 pointer-events-none" />
+        <div className="absolute bottom-12 left-0 right-0 text-center px-6">
+          <p className="font-heading font-light italic text-3xl md:text-4xl text-white/90 mb-6 tracking-wide">
+            We can&apos;t wait to see you there
+          </p>
           <Link
-            href={`/rsvp?code=${encodeURIComponent(code!)}`}
-            className="mt-10 inline-block bg-sage text-cream px-10 py-3 text-sm tracking-widest uppercase hover:bg-sage-light transition-colors rounded-sm"
+            href="/rsvp"
+            className="inline-block border border-white text-white px-12 py-3.5 text-[0.7rem] tracking-[0.2em] uppercase hover:bg-white hover:text-[#1a1a1a] transition-colors duration-300"
           >
             RSVP
           </Link>
-        )}
-      </section>
-
-      {/* Details section */}
-      <section className="max-w-2xl mx-auto px-6 py-20 text-center space-y-12">
-        <div>
-          <h2 className="font-heading text-3xl text-warm-brown mb-3">
-            Ceremony &amp; Reception
-          </h2>
-          <p className="text-muted-brown leading-relaxed">
-            [Venue Name]
-            <br />
-            [Street Address], [City], Peru
-          </p>
-          <p className="text-sm text-terracotta mt-2 tracking-wider">
-            [Time] — Ceremony &nbsp;·&nbsp; [Time] — Reception
-          </p>
-        </div>
-
-        <div className="h-px bg-tan" />
-
-        <div>
-          <h2 className="font-heading text-3xl text-warm-brown mb-3">
-            Getting There
-          </h2>
-          <p className="text-muted-brown leading-relaxed">
-            More details about travel, accommodation, and the local area will
-            be shared soon. Please check back closer to the date.
-          </p>
         </div>
       </section>
     </>

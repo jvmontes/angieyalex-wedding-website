@@ -1,28 +1,49 @@
 import { NextRequest, NextResponse } from "next/server";
 import { google } from "googleapis";
 
+type AdditionalGuest = {
+  firstName: string;
+  lastName: string;
+  email?: string;
+  phone?: string;
+};
+
 export async function POST(request: NextRequest) {
   try {
     const data = await request.json();
-    const { firstName, lastName, email, attending, guestName, guestEmail } =
-      data;
+    const { firstName, lastName, email, address, guests } = data;
 
-    // Basic server-side validation
-    if (!firstName || !lastName || !email || !attending) {
+    if (!firstName || !lastName || !email) {
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 }
       );
     }
 
+    // Format additional guests into a readable string for the sheet
+    const additionalGuests: AdditionalGuest[] = Array.isArray(guests)
+      ? guests
+      : [];
+    const guestsFormatted = additionalGuests
+      .map((g) => {
+        const contact = [g.email, g.phone].filter(Boolean).join(" / ");
+        return contact
+          ? `${g.firstName} ${g.lastName} (${contact})`
+          : `${g.firstName} ${g.lastName}`;
+      })
+      .join("; ");
+
     const serviceAccountJson = process.env.GOOGLE_SERVICE_ACCOUNT_JSON;
     const sheetId = process.env.GOOGLE_SHEET_ID;
 
     if (!serviceAccountJson || !sheetId) {
-      console.warn(
-        "Google Sheets not configured — RSVP received but not saved:",
-        { firstName, lastName, email, attending }
-      );
+      console.warn("Google Sheets not configured — RSVP received but not saved:", {
+        firstName,
+        lastName,
+        email,
+        address,
+        guests: guestsFormatted,
+      });
       return NextResponse.json({ success: true });
     }
 
@@ -46,9 +67,9 @@ export async function POST(request: NextRequest) {
             firstName,
             lastName,
             email,
-            attending,
-            guestName ?? "",
-            guestEmail ?? "",
+            address ?? "",
+            additionalGuests.length,
+            guestsFormatted,
           ],
         ],
       },
