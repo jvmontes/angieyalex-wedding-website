@@ -1,65 +1,111 @@
-import Image from "next/image";
+import Link from "next/link";
 
-export default function Home() {
+export default async function HomePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ code?: string }>;
+}) {
+  const { code } = await searchParams;
+  const validCode = process.env.NEXT_PUBLIC_RSVP_CODE;
+  const hasValidCode = Boolean(code && validCode && code === validCode);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <>
+      {/* Hero */}
+      <section className="relative flex flex-col items-center justify-center text-center px-6 py-24 md:py-36 overflow-hidden bg-cream-dark">
+        {/* Decorative top border */}
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-tan to-transparent" />
+
+        {/* Placeholder hero image */}
+        <div className="absolute inset-0 -z-10">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="https://placehold.co/1400x700/e8ddd0/c4b09a?text=+"
+            alt=""
+            aria-hidden="true"
+            className="w-full h-full object-cover opacity-40"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-cream-dark/60 via-cream-dark/40 to-cream-dark/80" />
+        </div>
+
+        {/* Eyebrow */}
+        <p className="text-xs tracking-[0.3em] uppercase text-terracotta mb-6">
+          Together with their families
+        </p>
+
+        {/* Names */}
+        <h1 className="font-heading text-6xl md:text-8xl text-warm-brown leading-none mb-4">
+          Angie
+          <span className="block text-3xl md:text-4xl text-muted-brown font-normal italic my-3">
+            &amp;
+          </span>
+          Alex
+        </h1>
+
+        {/* Date & Location */}
+        <div className="mt-6 space-y-1">
+          <p className="text-base md:text-lg tracking-widest uppercase text-muted-brown">
+            [Month DD, YYYY]
+          </p>
+          <p className="text-sm tracking-widest text-terracotta uppercase">
+            [Venue Name] &nbsp;·&nbsp; [City], Peru
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        {/* Divider */}
+        <div className="flex items-center gap-4 my-10">
+          <div className="h-px w-16 bg-tan" />
+          <span className="text-tan text-lg">✦</span>
+          <div className="h-px w-16 bg-tan" />
         </div>
-      </main>
-    </div>
+
+        {/* Welcome message */}
+        <p className="max-w-prose text-base md:text-lg text-muted-brown leading-relaxed">
+          We are overjoyed to invite you to share in the celebration of our
+          love. Surrounded by the beauty of Peru, we will begin our journey
+          together as husband and wife — and we could not imagine this day
+          without you.
+        </p>
+
+        {/* RSVP Button — only shown with a valid ?code= param */}
+        {hasValidCode && (
+          <Link
+            href={`/rsvp?code=${encodeURIComponent(code!)}`}
+            className="mt-10 inline-block bg-sage text-cream px-10 py-3 text-sm tracking-widest uppercase hover:bg-sage-light transition-colors rounded-sm"
+          >
+            RSVP
+          </Link>
+        )}
+      </section>
+
+      {/* Details section */}
+      <section className="max-w-2xl mx-auto px-6 py-20 text-center space-y-12">
+        <div>
+          <h2 className="font-heading text-3xl text-warm-brown mb-3">
+            Ceremony &amp; Reception
+          </h2>
+          <p className="text-muted-brown leading-relaxed">
+            [Venue Name]
+            <br />
+            [Street Address], [City], Peru
+          </p>
+          <p className="text-sm text-terracotta mt-2 tracking-wider">
+            [Time] — Ceremony &nbsp;·&nbsp; [Time] — Reception
+          </p>
+        </div>
+
+        <div className="h-px bg-tan" />
+
+        <div>
+          <h2 className="font-heading text-3xl text-warm-brown mb-3">
+            Getting There
+          </h2>
+          <p className="text-muted-brown leading-relaxed">
+            More details about travel, accommodation, and the local area will
+            be shared soon. Please check back closer to the date.
+          </p>
+        </div>
+      </section>
+    </>
   );
 }
