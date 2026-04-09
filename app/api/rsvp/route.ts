@@ -11,7 +11,7 @@ type AdditionalGuest = {
 export async function POST(request: NextRequest) {
   try {
     const data = await request.json();
-    const { firstName, lastName, email, address, guests } = data;
+    const { attendance, firstName, lastName, email, address, guests } = data;
 
     if (!firstName || !lastName || !email) {
       return NextResponse.json(
@@ -38,6 +38,7 @@ export async function POST(request: NextRequest) {
 
     if (!serviceAccountJson || !sheetId) {
       console.warn("Google Sheets not configured — RSVP received but not saved:", {
+        attendance,
         firstName,
         lastName,
         email,
@@ -64,6 +65,7 @@ export async function POST(request: NextRequest) {
         values: [
           [
             new Date().toISOString(),
+            attendance ?? "",
             firstName,
             lastName,
             email,

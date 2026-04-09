@@ -43,16 +43,13 @@ export default function RootLayout({
               Angie &amp; Alex
             </p>
             <p className="text-xs tracking-widest text-terracotta mt-0.5 uppercase">
-              [Month DD, YYYY] &nbsp;·&nbsp; [City], Peru
+              02.13.2027 &nbsp;·&nbsp; Lima, Peru
             </p>
           </Link>
         </header>
 
         <main className="flex-1">{children}</main>
 
-        <footer className="border-t border-linen py-6 text-center text-xs tracking-widest text-stone-light uppercase">
-          With love, from Peru
-        </footer>
       </body>
     </html>
   );

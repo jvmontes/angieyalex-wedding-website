@@ -10,7 +10,10 @@ type AdditionalGuest = {
   phone: string;
 };
 
+type Attendance = "yes" | "maybe" | "no";
+
 type FormData = {
+  attendance: Attendance | "";
   firstName: string;
   lastName: string;
   email: string;
@@ -30,6 +33,7 @@ const MAX_GUESTS = 10;
 export default function RsvpForm() {
   const router = useRouter();
   const [form, setForm] = useState<FormData>({
+    attendance: "",
     firstName: "",
     lastName: "",
     email: "",
@@ -94,6 +98,40 @@ export default function RsvpForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+
+      {/* ── Attendance selector ── */}
+      <div className="flex items-center justify-center gap-0">
+        {(["Yes", "Maybe", "No"] as const).map((option, i) => {
+          const value = option.toLowerCase() as Attendance;
+          const isSelected = form.attendance === value;
+          return (
+            <label key={option} className="flex items-center cursor-pointer">
+              {i > 0 && (
+                <span className="flex items-center mx-4 text-linen text-[0.6rem]">
+                  <span className="block h-px w-8 bg-linen" />
+                  <span className="mx-1.5">◆</span>
+                  <span className="block h-px w-8 bg-linen" />
+                </span>
+              )}
+              <input
+                type="radio"
+                name="attendance"
+                value={value}
+                checked={isSelected}
+                onChange={() => setForm((prev) => ({ ...prev, attendance: value }))}
+                className="sr-only"
+              />
+              <span
+                className={`text-[0.95rem] tracking-wide transition-colors ${
+                  isSelected ? "text-charcoal font-medium" : "text-stone-light"
+                }`}
+              >
+                {option}
+              </span>
+            </label>
+          );
+        })}
+      </div>
 
       {/* ── Primary guest ── */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -277,6 +315,13 @@ export default function RsvpForm() {
           ))}
         </div>
       )}
+
+      {/* ── Plus-one note ── */}
+      <p className="text-center text-stone text-[0.8rem] leading-[1.8]">
+        While we wish we could accommodate everyone, space is limited. We&apos;ll
+        do our best and will confirm plus ones with guests closer to the
+        wedding date.
+      </p>
 
       {/* ── Add guest button ── */}
       {form.guests.length < MAX_GUESTS && (
