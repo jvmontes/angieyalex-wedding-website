@@ -1,13 +1,13 @@
 # Angie & Alex — Wedding Website
 
-A simple, elegant wedding website built with Next.js (App Router) and Tailwind CSS. Guests can RSVP via a secret URL code; submissions are written to a Google Sheet.
+A simple, elegant wedding website built with Next.js (App Router) and Tailwind CSS. Guests RSVP via a form; submissions are written as rows to a Google Sheet.
 
 ## Pages
 
 | Route | Description |
 |---|---|
-| `/` | Landing page with hero, couple details, and optional RSVP button |
-| `/rsvp?code=<CODE>` | RSVP form (redirects to `/` if code is invalid) |
+| `/` | Landing page with hero and RSVP button |
+| `/rsvp` | RSVP form |
 | `/thank-you` | Confirmation page after submission |
 | `/api/rsvp` | POST endpoint — appends row to Google Sheet |
 
@@ -21,15 +21,14 @@ npm install
 
 ### 2. Configure environment variables
 
-Copy `.env.local` (already created) and fill in the values:
+Create a `.env.local` file in the project root:
 
 ```
-NEXT_PUBLIC_RSVP_CODE=your-secret-rsvp-code
 GOOGLE_SERVICE_ACCOUNT_JSON={"type":"service_account",...}
 GOOGLE_SHEET_ID=your-google-sheet-id
 ```
 
-> **Tip:** The site works without the Google Sheets variables during development — RSVPs are logged to the console instead of being saved.
+> **Tip:** Both variables are optional during development. If either is missing, RSVPs are logged to the console instead of being saved to the sheet.
 
 ### 3. Run the dev server
 
@@ -37,69 +36,69 @@ GOOGLE_SHEET_ID=your-google-sheet-id
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). To test the RSVP flow, visit [http://localhost:3000?code=your-secret-rsvp-code](http://localhost:3000?code=your-secret-rsvp-code).
+Open [http://localhost:3000](http://localhost:3000).
 
 ---
 
 ## Google Sheets Setup
 
+Each RSVP submission appends one row to `Sheet1` with these columns:
+
+| A | B | C | D | E | F | G | H |
+|---|---|---|---|---|---|---|---|
+| Timestamp | Attendance | First Name | Last Name | Email | Address | Guest Count | Additional Guests |
+
 ### Step 1 — Create a Google Sheet
 
-1. Create a new Google Sheet.
-2. Add a header row in `Sheet1`:
+1. Go to [Google Sheets](https://sheets.google.com) and create a new blank sheet.
+2. In row 1, add the header labels above (optional but recommended).
+3. Copy the **Sheet ID** from the URL:
+   ```
+   https://docs.google.com/spreadsheets/d/<SHEET_ID>/edit
+   ```
 
-   | A | B | C | D | E | F | G |
-   |---|---|---|---|---|---|---|
-   | Timestamp | First Name | Last Name | Email | Attending | Guest Name | Guest Email |
-
-3. Copy the Sheet ID from the URL:
-   `https://docs.google.com/spreadsheets/d/<SHEET_ID>/edit`
-
-### Step 2 — Create a Google Cloud project & service account
+### Step 2 — Create a Google Cloud service account
 
 1. Go to [Google Cloud Console](https://console.cloud.google.com/).
-2. Create a new project (or use an existing one).
-3. Enable the **Google Sheets API** for the project.
-4. Navigate to **IAM & Admin → Service Accounts** and create a new service account.
-5. Grant it the **Editor** role (or a custom role with Sheets write access).
-6. Under the service account, go to **Keys → Add Key → Create new key → JSON**.
-7. Download the JSON key file.
+2. Create a new project (or select an existing one).
+3. Enable the **Google Sheets API**: navigate to **APIs & Services → Library**, search for "Google Sheets API", and click **Enable**.
+4. Navigate to **IAM & Admin → Service Accounts** and click **Create Service Account**.
+5. Give it a name (e.g. `wedding-rsvp`), click **Done** — no extra roles needed.
+6. Click the new service account, go to **Keys → Add Key → Create new key → JSON**, and download the file.
 
-### Step 3 — Share your sheet with the service account
+### Step 3 — Share the sheet with the service account
 
-1. Open your Google Sheet.
-2. Click **Share** and add the service account's email (e.g. `my-sa@my-project.iam.gserviceaccount.com`) as an **Editor**.
+1. Open the JSON key file and copy the `client_email` value (looks like `wedding-rsvp@your-project.iam.gserviceaccount.com`).
+2. Open your Google Sheet, click **Share**, paste that email, and set the role to **Editor**.
 
 ### Step 4 — Set the environment variables
 
-Stringify the downloaded JSON key (remove all newlines) and set it as `GOOGLE_SERVICE_ACCOUNT_JSON`:
+Minify the JSON key onto a single line and set it as `GOOGLE_SERVICE_ACCOUNT_JSON`:
 
 ```bash
-# On macOS/Linux — copies the minified JSON to your clipboard
+# macOS — minifies the key and copies it to your clipboard
 cat path/to/key.json | jq -c . | pbcopy
 ```
 
-Paste the result as the value of `GOOGLE_SERVICE_ACCOUNT_JSON` in `.env.local`.
+Paste the result (no newlines) as the value in `.env.local`:
 
-Set `GOOGLE_SHEET_ID` to the Sheet ID from Step 1.
+```
+GOOGLE_SERVICE_ACCOUNT_JSON={"type":"service_account","project_id":"..."}
+GOOGLE_SHEET_ID=1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms
+```
 
----
-
-## Customising Placeholder Content
-
-Search the codebase for `[` to find all placeholder values:
-
-- Couple names: `app/layout.tsx`, `app/page.tsx`
-- Wedding date: `app/layout.tsx`, `app/page.tsx`
-- Venue & city: `app/page.tsx`
-- Hero image: `app/page.tsx` — replace the `<img src="https://placehold.co/...">` with a real image
+Restart the dev server after editing `.env.local`.
 
 ---
 
-## Deployment
+## Deployment (Vercel)
 
-Deploy to [Vercel](https://vercel.com/) with one click. Add the three environment variables in the Vercel project settings under **Settings → Environment Variables**.
+1. Push the branch to GitHub and import the repo in [Vercel](https://vercel.com/).
+2. In the Vercel project, go to **Settings → Environment Variables** and add:
+   - `GOOGLE_SERVICE_ACCOUNT_JSON` — the minified JSON string from Step 4
+   - `GOOGLE_SHEET_ID` — the Sheet ID from Step 1
+3. Redeploy for the variables to take effect.
 
 ```bash
-npm run build   # verify build locally first
+npm run build   # verify the build passes locally before deploying
 ```
