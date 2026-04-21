@@ -11,7 +11,7 @@ export default function HomePage() {
       ───────────────────────────────────────── */}
       <section className="relative h-[92svh] min-h-[600px]">
         <Image
-          src="/EngagementPhotos/alex-lifting-angie.jpeg"
+          src="/alex-and-angie-hero.jpg"
           alt="Alex lifting Angie, laughing together on the cliffs of Lima"
           fill
           sizes="100vw"
