@@ -6,7 +6,7 @@ export const metadata = {
 
 export default function RsvpPage() {
   return (
-    <section className="max-w-lg mx-auto px-6 py-16 md:py-24">
+    <section className="animate-fade-in min-h-screen bg-background max-w-lg mx-auto px-6 py-8 md:py-12">
       <div className="text-center mb-12">
         <p className="text-[0.65rem] tracking-[0.35em] uppercase text-terracotta mb-3">
           You&apos;re invited

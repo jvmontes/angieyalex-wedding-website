@@ -9,7 +9,7 @@ export default function HomePage() {
           Full viewport, text overlaid in the open
           sky at top, RSVP anchored at bottom.
       ───────────────────────────────────────── */}
-      <section className="relative h-[92svh] min-h-[600px]">
+      <section className="relative h-[92svh] min-h-[600px] md:h-[130svh]">
         <Image
           src="/alex-and-angie-hero.jpg"
           alt="Alex lifting Angie, laughing together on the cliffs of Lima"
