@@ -99,40 +99,6 @@ export default function RsvpForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
 
-      {/* ── Attendance selector ── */}
-      <div className="flex items-center justify-center gap-0">
-        {(["Yes", "Maybe", "No"] as const).map((option, i) => {
-          const value = option.toLowerCase() as Attendance;
-          const isSelected = form.attendance === value;
-          return (
-            <label key={option} className="flex items-center cursor-pointer">
-              {i > 0 && (
-                <span className="flex items-center mx-4 text-linen text-[0.6rem]">
-                  <span className="block h-px w-8 bg-linen" />
-                  <span className="mx-1.5">◆</span>
-                  <span className="block h-px w-8 bg-linen" />
-                </span>
-              )}
-              <input
-                type="radio"
-                name="attendance"
-                value={value}
-                checked={isSelected}
-                onChange={() => setForm((prev) => ({ ...prev, attendance: value }))}
-                className="sr-only"
-              />
-              <span
-                className={`text-[0.95rem] tracking-wide transition-colors ${
-                  isSelected ? "text-charcoal font-medium" : "text-stone-light"
-                }`}
-              >
-                {option}
-              </span>
-            </label>
-          );
-        })}
-      </div>
-
       {/* ── Primary guest ── */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
@@ -164,6 +130,29 @@ export default function RsvpForm() {
             placeholder="Smith"
             className={inputClass}
           />
+        </div>
+      </div>
+
+      {/* ── Attendance ── */}
+      <div>
+        <p className={labelClass}>Will you join us? <span className="text-terracotta">*</span></p>
+        <div className="flex gap-6 mt-2">
+          {(["Yes", "Maybe", "No"] as const).map((option) => {
+            const value = option.toLowerCase() as Attendance;
+            return (
+              <label key={option} className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="radio"
+                  name="attendance"
+                  value={value}
+                  checked={form.attendance === value}
+                  onChange={() => setForm((prev) => ({ ...prev, attendance: value }))}
+                  className="accent-charcoal w-4 h-4 cursor-pointer"
+                />
+                <span className="text-sm text-charcoal">{option}</span>
+              </label>
+            );
+          })}
         </div>
       </div>
 
